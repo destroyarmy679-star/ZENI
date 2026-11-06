@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#120a2e">
+<title>ZENI</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--a:#8b5cf6;--b:#06b6d4;--c:#f472b6;--text:#fff;--mute:rgba(255,255,255,.62);--glass:rgba(255,255,255,.12);--glass2:rgba(255,255,255,.2);--edge:rgba(255,255,255,.35);--bg1:#120a2e}
+:root[data-theme="ocean"]{--a:#0ea5e9;--b:#34d399;--c:#38bdf8;--bg1:#04162b}
+:root[data-theme="sunset"]{--a:#fb7185;--b:#fbbf24;--c:#f97316;--bg1:#2a0a14}
+:root[data-theme="mint"]{--a:#10b981;--b:#a3e635;--c:#2dd4bf;--bg1:#042018}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:'Outfit',system-ui,sans-serif;color:var(--text);background:var(--bg1);overflow:hidden}
+.orb{position:fixed;border-radius:50%;filter:blur(70px);opacity:.75;animation:drift 14s ease-in-out infinite alternate}
+.o1{width:300px;height:300px;background:var(--a);top:-80px;left:-80px}
+.o2{width:260px;height:260px;background:var(--b);bottom:-60px;right:-60px;animation-delay:-5s}
+.o3{width:200px;height:200px;background:var(--c);top:45%;left:35%;animation-delay:-9s}
+@keyframes drift{to{transform:translate(50px,-40px) scale(1.2)}}
+.glass{background:var(--glass);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--edge);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 32px rgba(0,0,0,.25)}
+.screen{position:fixed;inset:0;padding:env(safe-area-inset-top,0px) 14px env(safe-area-inset-bottom,0px);display:flex;flex-direction:column;gap:12px;transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .35s;max-width:560px;margin:0 auto}
+.screen.off{transform:translateX(40px);opacity:0;pointer-events:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+.btn{padding:14px 20px;border-radius:18px;font-weight:600;transition:transform .15s}
+.btn:active{transform:scale(.95)}
+.pri{background:linear-gradient(135deg,var(--a),var(--c));box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.center{justify-content:center;align-items:center;text-align:center;gap:18px}
+.logo{font-size:64px;font-weight:700;letter-spacing:.14em;background:linear-gradient(135deg,#fff,var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.card{padding:28px 22px;border-radius:32px;width:100%;display:flex;flex-direction:column;gap:14px}
+.top{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:24px;margin-top:8px}
+.top h2{flex:1;font-size:22px;letter-spacing:.1em}
+.ic{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--glass);font-size:18px;flex:none;transition:transform .2s}
+.ic:active{transform:scale(.88)}
+input[type=text]{width:100%;padding:14px 16px;border-radius:18px;border:1px solid var(--edge);background:var(--glass);color:var(--text);font:inherit;outline:none}
+input::placeholder{color:var(--mute)}
+input:focus{border-color:#fff}
+.list{flex:1;overflow:auto;display:flex;flex-direction:column;gap:10px;padding-bottom:10px}
+.row{display:flex;gap:12px;align-items:center;padding:12px;border-radius:22px;text-align:left;width:100%;transition:transform .2s,background .2s}
+.row:active{transform:scale(.97);background:var(--glass2)}
+.av{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:18px;background:linear-gradient(135deg,var(--a),var(--b));flex:none;overflow:hidden}
+.av img{width:100%;height:100%;object-fit:cover}
+.row b{display:block;font-weight:600}
+.row small{color:var(--mute)}
+.msgs{flex:1;overflow:auto;display:flex;flex-direction:column;gap:8px;padding:4px 2px}
+.m{max-width:78%;padding:10px 14px;border-radius:20px;animation:pop .3s cubic-bezier(.22,1,.36,1);word-wrap:break-word}
+@keyframes pop{from{transform:scale(.8) translateY(10px);opacity:0}}
+.m.in{align-self:flex-start;border-bottom-left-radius:6px}
+.m.out{align-self:flex-end;border-bottom-right-radius:6px;background:linear-gradient(135deg,color-mix(in srgb,var(--a) 70%,transparent),color-mix(in srgb,var(--c) 60%,transparent));border:1px solid var(--edge)}
+.bar{display:flex;gap:8px;align-items:center;padding:8px;border-radius:26px;margin-bottom:8px}
+.bar input{border:0;background:transparent}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-width:560px;margin:0 auto;padding:22px 20px calc(22px + env(safe-area-inset-bottom,0px));border-radius:32px 32px 0 0;transform:translateY(110%);transition:transform .5s cubic-bezier(.22,1,.36,1);z-index:5;display:flex;flex-direction:column;gap:14px}
+.sheet.on{transform:none}
+.themes{display:flex;gap:12px}
+.sw{width:46px;height:46px;border-radius:50%;border:2px solid var(--edge)}
+.empty{color:var(--mute);text-align:center;padding:20px}
+.err{color:#fda4af;font-size:14px;min-height:18px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+
+<section class="screen center" id="s-login">
+  <div class="logo">ZENI</div>
+  <div class="card glass">
+    <p style="color:var(--mute)">Chat with friends, behind glass.</p>
+    <button class="btn pri" id="gbtn">Continue with Google</button>
+    <div class="err" id="lerr"></div>
+  </div>
+</section>
+
+<section class="screen center off" id="s-setup">
+  <div class="card glass">
+    <h2>Choose your username</h2>
+    <input type="text" id="un" placeholder="username (a-z, 0-9, _ .)" autocapitalize="none" autocomplete="off">
+    <div class="err" id="uerr"></div>
+    <button class="btn pri" id="ubtn">Get started</button>
+  </div>
+</section>
+
+<section class="screen off" id="s-home">
+  <div class="top glass"><h2>ZENI</h2><button class="ic" id="setbtn" aria-label="Settings">⚙️</button></div>
+  <input type="text" id="q" placeholder="Search by name or @username" autocomplete="off">
+  <div class="list" id="list"></div>
+</section>
+
+<section class="screen off" id="s-chat">
+  <div class="top glass">
+    <button class="ic" id="back" aria-label="Back">‹</button>
+    <div class="av" id="cav" style="width:40px;height:40px;font-size:16px"></div>
+    <h2 id="cname" style="font-size:18px;letter-spacing:0">—</h2>
+  </div>
+  <div class="msgs" id="msgs"></div>
+  <div class="bar glass">
+    <input type="text" id="t" placeholder="Type a message" autocomplete="off">
+    <button class="ic pri" id="sendbtn" aria-label="Send">➤</button>
+  </div>
+</section>
+
+<div class="sheet glass" id="sheet">
+  <h3>Settings</h3>
+  <input type="text" id="nick" placeholder="Your display name">
+  <div style="color:var(--mute)">Theme</div>
+  <div class="themes" id="themes"></div>
+  <button class="btn pri" id="save">Save</button>
+  <button class="btn glass" id="logout">Logout</button>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {getFirestore,doc,getDoc,setDoc,updateDoc,collection,query,where,orderBy,limit,startAt,endAt,getDocs,addDoc,onSnapshot,writeBatch} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const app=initializeApp({
+  apiKey:"AIzaSyC8YeiCYj4T3MX3GmKnSnhaQ776na4aQhY",
+  authDomain:"zeni-471ea.firebaseapp.com",
+  projectId:"zeni-471ea",
+  storageBucket:"zeni-471ea.firebasestorage.app",
+  messagingSenderId:"696517444924",
+  appId:"1:696517444924:web:930d7b671505c8fa964a39"
+});
+const auth=getAuth(app),db=getFirestore(app);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let me=null,peer=null,unsubMsgs=null,unsubRecent=null,recent=[];
+
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('off',s.id!==id))}
+const avatar=u=>u.photo?`<img src="${esc(u.photo)}" alt="">`:esc((u.name||'?')[0].toUpperCase());
+const cid=(a,b)=>[a,b].sort().join('_');
+
+// theme
+const th=[['violet','#8b5cf6'],['ocean','#0ea5e9'],['sunset','#fb7185'],['mint','#10b981']];
+$('themes').innerHTML=th.map(([n,c])=>`<button class="sw" style="background:${c}" aria-label="${n}" data-t="${n}"></button>`).join('');
+const setTheme=t=>{document.documentElement.dataset.theme=t;try{localStorage.setItem('zt',t)}catch(e){}};
+try{setTheme(localStorage.getItem('zt')||'violet')}catch(e){}
+$('themes').onclick=e=>{if(e.target.dataset.t)setTheme(e.target.dataset.t)};
+
+// auth
+$('gbtn').onclick=async()=>{$('lerr').textContent='';try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){$('lerr').textContent='Login failed: '+(e.code||e.message)}};
+onAuthStateChanged(auth,async u=>{
+  if(!u){me=null;go('s-login');return}
+  const s=await getDoc(doc(db,'users',u.uid));
+  if(s.exists()){me={uid:u.uid,...s.data()};start()}
+  else{me={uid:u.uid,name:u.displayName||'User',photo:u.photoURL||''};go('s-setup')}
+});
+
+// username setup
+$('ubtn').onclick=async()=>{
+  const un=$('un').value.trim().toLowerCase().replace(/^@/,'');
+  if(!/^[a-z0-9_.]{3,20}$/.test(un)){$('uerr').textContent='3-20 characters: a-z, 0-9, _ or .';return}
+  $('uerr').textContent='';
+  try{
+    if((await getDoc(doc(db,'usernames',un))).exists()){$('uerr').textContent='This username is already taken';return}
+    const prof={name:me.name,nameLower:me.name.toLowerCase(),username:un,photo:me.photo};
+    const b=writeBatch(db);
+    b.set(doc(db,'usernames',un),{uid:me.uid});
+    b.set(doc(db,'users',me.uid),prof);
+    await b.commit();
+    me={uid:me.uid,...prof};start();
+  }catch(e){$('uerr').textContent='Error: '+(e.code||e.message)}
+};
+
+// home
+function start(){
+  go('s-home');$('nick').value=me.name;
+  unsubRecent&&unsubRecent();
+  unsubRecent=onSnapshot(query(collection(db,'users',me.uid,'chats'),orderBy('ts','desc')),s=>{
+    recent=s.docs.map(d=>({uid:d.id,...d.data()}));if(!$('q').value.trim())showList(recent,'No chats yet. Search above to start one.')
+  });
+}
+function showList(arr,emptyMsg){
+  $('list').innerHTML=arr.length?arr.map(u=>`<button class="row glass" data-u="${esc(u.uid)}"><div class="av">${avatar(u)}</div><div><b>${esc(u.name)}</b><small>${u.last!==undefined?esc(u.last):'@'+esc(u.username||'')}</small></div></button>`).join(''):`<div class="empty">${emptyMsg}</div>`;
+  $('list')._arr=arr;
+}
+$('list').onclick=e=>{const r=e.target.closest('.row');if(!r)return;const u=$('list')._arr.find(x=>x.uid===r.dataset.u);if(u)openChat(u)};
+let tm;
+$('q').oninput=()=>{
+  clearTimeout(tm);const v=$('q').value.trim().toLowerCase().replace(/^@/,'');
+  if(!v){showList(recent,'No chats yet. Search above to start one.');return}
+  tm=setTimeout(async()=>{
+    try{
+      const f=(fld)=>getDocs(query(collection(db,'users'),orderBy(fld),startAt(v),endAt(v+'\uf8ff'),limit(15)));
+      const [a,b]=await Promise.all([f('username'),f('nameLower')]);
+      const map={};[...a.docs,...b.docs].forEach(d=>{if(d.id!==me.uid)map[d.id]={uid:d.id,...d.data()}});
+      showList(Object.values(map),'No users found');
+    }catch(e){showList([],'Search error: '+esc(e.code||e.message))}
+  },300);
+};
+
+// chat
+function openChat(u){
+  peer=u;$('cname').textContent=u.name;$('cav').innerHTML=avatar(u);$('msgs').innerHTML='';go('s-chat');
+  unsubMsgs&&unsubMsgs();
+  unsubMsgs=onSnapshot(query(collection(db,'chats',cid(me.uid,u.uid),'messages'),orderBy('ts'),limit(200)),s=>{
+    $('msgs').innerHTML=s.docs.map(d=>{const m=d.data();return `<div class="m glass ${m.from===me.uid?'out':'in'}">${esc(m.text)}</div>`}).join('');
+    $('msgs').scrollTop=1e9;
+  });
+}
+$('back').onclick=()=>{unsubMsgs&&unsubMsgs();unsubMsgs=null;peer=null;$('q').value='';showList(recent,'No chats yet. Search above to start one.');go('s-home')};
+async function send(){
+  const text=$('t').value.trim();if(!text||!peer)return;$('t').value='';
+  const ts=Date.now();
+  try{
+    await addDoc(collection(db,'chats',cid(me.uid,peer.uid),'messages'),{from:me.uid,text,ts});
+    const mine={name:peer.name,username:peer.username||'',photo:peer.photo||'',last:text,ts};
+    const theirs={name:me.name,username:me.username,photo:me.photo||'',last:text,ts};
+    await Promise.all([setDoc(doc(db,'users',me.uid,'chats',peer.uid),mine),setDoc(doc(db,'users',peer.uid,'chats',me.uid),theirs)]);
+  }catch(e){alert('Message not sent: '+(e.code||e.message))}
+}
+$('sendbtn').onclick=send;
+$('t').onkeydown=e=>{if(e.key==='Enter')send()};
+
+// settings
+$('setbtn').onclick=()=>$('sheet').classList.add('on');
+$('save').onclick=async()=>{
+  const n=$('nick').value.trim();
+  if(n&&n!==me.name){me.name=n;try{await updateDoc(doc(db,'users',me.uid),{name:n,nameLower:n.toLowerCase()})}catch(e){alert('Could not save')}}
+  $('sheet').classList.remove('on');
+};
+$('logout').onclick=async()=>{$('sheet').classList.remove('on');unsubRecent&&unsubRecent();await signOut(auth)};
+</script>
+</body>
+</html>
